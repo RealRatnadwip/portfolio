@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // --- Initialize UI Interactions ---
-  
+
   // Hamburger menu toggle
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobileNav');
@@ -56,63 +56,56 @@ document.addEventListener("DOMContentLoaded", async () => {
     revealObserver.observe(section);
   });
 
-  // Fetch and display last update date
-  fetch('https://api.github.com/repos/RealRatnadwip/RealRatnadwip.github.io/commits?')
-    .then(response => response.json())
-    .then(data => {
-      const date = new Date(data[0].commit.committer.date);
-      const day = date.getDate().toString().padStart(2, '0');
-      const monthName = date.toLocaleString("en-US", { month: "long" });
-      const year = date.getFullYear();
-      const hours = date.getHours().toString().padStart(2, '0');
-      const minutes = date.getMinutes().toString().padStart(2, '0');
-      const seconds = date.getSeconds().toString().padStart(2, '0');
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const formatted = `Last updated: ${day} ${monthName} ${year} at ${hours}:${minutes}:${seconds} (${timeZone})`;
+  // --- Fetch GitHub Commit Info ---
+  async function fetchLastCommit() {
+    try {
+      const response = await fetch('https://api.github.com/repos/RealRatnadwip/portfolio/commits');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       
+      const data = await response.json();
+      if (!data || !data.length) return;
+
+      const commitData = data[0].commit;
+      const date = new Date(commitData.committer.date);
+      
+      // Formatted Date String
+      const options = { year: 'numeric', month: 'long', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
+      const formatted = `Last updated: ${date.toLocaleString('en-US', options)}`;
+
       const lastUpdatedElement = document.getElementById("last-updated");
       if (lastUpdatedElement) {
         lastUpdatedElement.textContent = formatted;
       }
-    })
-    .catch(error => {
+
+      // Populate Commit Box
+      const commitBox = document.getElementById("commit-message");
+      if (commitBox) {
+        const authorName = commitData.author?.name || 'Unknown';
+        const message = (commitData.message || 'Update').split('\n')[0];
+        
+        commitBox.innerHTML = `Update: "${message}" by <span style="color: var(--accent-primary)">${authorName}</span>`;
+        commitBox.classList.remove('hidden');
+      }
+    } catch (error) {
+      console.error('Failed to load GitHub commits:', error);
       const lastUpdatedElement = document.getElementById("last-updated");
       if (lastUpdatedElement) {
         lastUpdatedElement.textContent = "Last updated: unavailable";
       }
-    });
-
-  // Clock
-  function updateClock() {
-    const clockEl = document.getElementById("liveClock");
-    if (!clockEl) return;
-    
-    const now = new Date();
-    const dayName = now.toLocaleDateString("en-US", { weekday: "long" });
-    const monthName = now.toLocaleDateString("en-US", { month: "long" });
-    const day = now.getDate();
-    const year = now.getFullYear();
-    const hours = now.getHours().toString().padStart(2, "0");
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const seconds = now.getSeconds().toString().padStart(2, "0");
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const clockText = `Current Time - ${dayName}, ${monthName} ${day}, ${year} ${hours}:${minutes}:${seconds} (${timeZone})`;
-    
-    clockEl.textContent = clockText;
+    }
   }
-  
-  setInterval(updateClock, 1000);
-  updateClock();
+
+  fetchLastCommit();
 
   // Redirect countdown (for thanks.html)
   const countdownEl = document.getElementById("countdown");
   const redirectText = document.getElementById("redirect-text");
-  
+
   if (countdownEl && redirectText) {
     let seconds = 10;
     countdownEl.textContent = seconds;
     countdownEl.style.color = "#E0F11F"; // Highlight color
-    
+
     const countdown = setInterval(() => {
       seconds--;
       countdownEl.textContent = seconds.toString().padStart(2, "0");
@@ -175,6 +168,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           cursor: zoom-out;
         }
       `, document.styleSheets[0].cssRules.length);
-    } catch (e) {}
+    } catch (e) { }
   }
 });
