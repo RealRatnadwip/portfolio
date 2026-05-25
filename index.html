@@ -41,7 +41,24 @@
 <br>
 <div class="introline">
   I’m Ratnadwip Sarkar — a student.
-  <br>And a passionate person for Technology & Music
+  <br>And a passionate person for Technology & Music<br><br><br>
+  <!-- Google Calendar Appointment Scheduling begin -->
+  <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+  <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+  <script>
+    (function() {
+      var target = document.currentScript;
+      window.addEventListener('load', function() {
+      calendar.schedulingButton.load({
+        url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Uo7ErSanud4NzeSqJcDjqGqZLqJtGiATNUfhQsXEAXTK3i6PTPstqQ04Tn2AxQN4sZYbUnBGT?gv=true',
+        color: '#e0f11f',
+        label: 'Book an appointment',
+        target,
+      });
+    });
+  })();
+  </script>
+  <!-- end Google Calendar Appointment Scheduling -->
 </div>
 
 <section id="about">
@@ -102,8 +119,6 @@
   <p>But if you’ve got a little time—and a little story to share—<br>
      <a href="./contact/">the door's open here</a>.</p>
 </section>
-
-
 
       <footer id="footer-placeholder" data-root="./"></footer>
 

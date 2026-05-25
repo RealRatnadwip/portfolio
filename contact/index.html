@@ -18,6 +18,14 @@
   <link rel="stylesheet" href="../style.css" />
   <meta name="description" content="Portfolio of Ratnadwip Sarkar, a digital designer and engineer blending creativity and technology.">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* Priority override for contact page section spacing */
+    #forms,
+    #contact,
+    #appointment {
+      padding: 1.25em 1.25em !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -47,6 +55,27 @@
     <p>If it’s something urgent or important, the best way to reach me is still through email :)<br>
       Email me at: <a href="mailto:me@ratnadwip.com" class="highlight" target="_blank">me@ratnadwip.com</a>
     </p>
+  </section>
+  <section id="appointment">
+    <p class="section-header">Book an Appointment</p>
+    <p>If you’d like to schedule a meeting or have a conversation, you can use the calendar below:</p>
+    <!-- Google Calendar Appointment Scheduling begin -->
+    <link href="https://calendar.google.com/calendar/scheduling-button-script.css" rel="stylesheet">
+    <script src="https://calendar.google.com/calendar/scheduling-button-script.js" async></script>
+    <script>
+      (function() {
+        var target = document.currentScript;
+        window.addEventListener('load', function() {
+        calendar.schedulingButton.load({
+          url: 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ3Uo7ErSanud4NzeSqJcDjqGqZLqJtGiATNUfhQsXEAXTK3i6PTPstqQ04Tn2AxQN4sZYbUnBGT?gv=true',
+          color: '#e0f11f',
+          label: 'Book an appointment',
+          target,
+        });
+      });
+    })();
+    </script>
+    <!-- end Google Calendar Appointment Scheduling -->
   </section>
   
   <footer id="footer-placeholder" data-root="../"></footer>
